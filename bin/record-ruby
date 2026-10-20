@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Слепки API с настоящего Ruby (оракул) → artifacts/ruby-<v3|v4>/.
+# Использование: bin/record-ruby [v3|v4] (по умолчанию v4)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+VER=${1:-v4}
+case "$VER" in
+  v3) RUBY=${RUBY_V3:-$HOME/.rvm/rubies/ruby-3.4.5/bin/ruby} ;;
+  v4) RUBY=${RUBY_V4:-$HOME/.rvm/rubies/ruby-4.0.4/bin/ruby} ;;
+  *) echo "usage: bin/record-ruby [v3|v4]" >&2; exit 2 ;;
+esac
+
+mkdir -p "artifacts/ruby-$VER"
+rm -rf "artifacts/ruby-$VER"/*
+TZ=Europe/Moscow exec "$RUBY" oracle/record.rb "artifacts/ruby-$VER"

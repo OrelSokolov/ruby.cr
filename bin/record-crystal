@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Зеркальные слепки через Ruby::V3/V4 (Crystal) → artifacts/crystal-<v3|v4>/.
+# Использование: bin/record-crystal [v3|v4] (по умолчанию v4)
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+VER=${1:-v4}
+case "$VER" in
+  v3|v4) ;;
+  *) echo "usage: bin/record-crystal [v3|v4]" >&2; exit 2 ;;
+esac
+
+mkdir -p "artifacts/crystal-$VER"
+rm -rf "artifacts/crystal-$VER"/*
+BIN=$(mktemp /tmp/record_bin.XXXXXX)
+trap 'rm -f "$BIN"' EXIT
+crystal build record/record.cr -o "$BIN"
+TZ=Europe/Moscow exec "$BIN" "artifacts/crystal-$VER" "$VER"

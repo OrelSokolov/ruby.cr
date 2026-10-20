@@ -1,0 +1,961 @@
+# Единый список кейсов для слепков: oracle/record.rb (настоящий Ruby)
+# и record/record.cr (Ruby::V4 на Crystal) читают этот файл.
+# Формат: "# file: <имя>.txt" начинает секцию; дальше по одному выражению
+# на строку. Все кейсы детерминированы (без now/seed без сида).
+# Метка = само выражение; результат печатается через inspect.
+
+# file: kernel.txt
+format("%d", 42)
+format("%5d|", 42)
+format("%-5d|", 42)
+format("%05d", -42)
+format("%+d", 42)
+format("%+d", -42)
+format("% d", 42)
+format("%x", 255)
+format("%X", 255)
+format("%#x", 255)
+format("%#X", 255)
+format("%08x", 255)
+format("%o", 8)
+format("%#o", 8)
+format("%b", 5)
+format("%#b", 5)
+format("%s|", "hi")
+format("%10s|", "hi")
+format("%-10s|", "hi")
+format("%.2s|", "hello")
+format("%p", "hi")
+format("%c", 65)
+format("%c", "A")
+format("100%%")
+format("%e", 12345.678)
+format("%E", 12345.678)
+format("%.2e", 12345.678)
+format("%15.2e|", 1.5)
+format("%f", 3.14159)
+format("%.0f", 2.5)
+format("%.0f", 3.5)
+format("%.0f", -2.5)
+format("%10.3f|", -3.14159)
+format("%010.3f", -3.14159)
+format("%-10.2f|", 3.14159)
+format("%g", 123456789.0)
+format("%g", 1234567890.0)
+format("%g", 0.00012)
+format("%g", 0.000012)
+format("%.3g", 3.14159)
+format("%3$s %1$s %2$s", "a", "b", "c")
+format("%2$c", 66, 65)
+format("%<foo>05.1f", foo: 3.14159)
+format("%{a}-%{b}", a: 1, b: 2)
+"%05.2f" % [3.14159]
+"%s-%s" % ["a", "b"]
+"%d" % 42
+
+# file: string.txt
+"HELLO".downcase
+"hello".upcase
+"hello WORLD".swapcase
+"hello world".capitalize
+"hello world".split(" ")
+"hello world".split
+"hello".split("l")
+"a,b;;c".split(",")
+"a,b;;c".split(/,+/)
+"hello".sub("l", "L")
+"hello".gsub("l", "L")
+"hello world".tr("lo", "01")
+"a-c".tr("a-c", "x-z")
+"hello".squeeze
+"hello".squeeze("l")
+"hello world".delete("l")
+"  hi  ".strip
+"  hi  ".lstrip
+"hi  ".rstrip
+"hello".center(11, "*")
+"hi".ljust(5, ".")
+"hi".rjust(5, ".")
+"hello".chars
+"hello".bytes
+"hello".ord
+"A".ord
+"hello".getbyte(0)
+"hello".getbyte(99)
+"hello".byteslice(1, 3)
+"hello".start_with?("he", "xx")
+"hello".start_with?("xx", "he")
+"hello".end_with?("lo")
+"hello".end_with?("lx", "lo")
+"abc"[1]
+"abc"[0, 2]
+"abc"[1..]
+"abc".slice(1, 2)
+"abc".index("b")
+"abc".rindex("c")
+"abc".empty?
+"".empty?
+"abc".include?("b")
+"abc".reverse
+"abc".length
+"abc".size
+"hello" * 2
+"01".to_i
+"ff".to_i(16)
+"3.14".to_f
+"ff".hex
+"0x10".hex
+"-f".hex
+"zz".hex
+"777".oct
+"0x10".oct
+"%s!" % "hi"
+"abc".inspect
+"a\tb\"c".inspect
+"a\nb".inspect
+"é".size
+"é".bytes.size
+"é".chars
+"hello world".scan(/\w+/)
+"hello".partition("l")
+"hello".rpartition("l")
+"a\nb".lines
+"a\nb".chomp
+"a\r\n".chomp
+"a ".chomp
+"abc".concat("def")
+"abc".prepend("x")
+"abc".insert(1, "X")
+"abc".delete_prefix("ab")
+"abc".delete_suffix("bc")
+"hello world".each_char.first(3)
+"abc".succ
+"az".succ
+"zz".succ
+"a9".succ
+"Zz".succ
+"9".succ
+"abc" <=> "abd"
+"abc" == "abc"
+
+# file: integer.txt
+7.divmod(3)
+-7.divmod(3)
+7.modulo(3)
+-7.modulo(3)
+7.remainder(3)
+-7.remainder(3)
+-7 % 3
+7.fdiv(2)
+12345.digits
+(2**20).digits
+12345.to_s(2)
+12345.to_s(16)
+12345.to_s(8)
+12345.to_s(36)
+255.bit_length
+0.bit_length
+(-1).bit_length
+2.pow(10)
+2.pow(10, 100)
+6.gcd(4)
+6.lcm(4)
+2.gcdlcm(3)
+10.times.to_a
+3.upto(6).to_a
+6.downto(3).to_a
+2.step(10, 3).to_a
+5.clamp(1, 3)
+7.clamp(1..3)
+3.between?(1, 5)
+10.pred
+10.succ
+10.next
+10.chr
+65.chr
+-5.abs
+5.zero?
+0.zero?
+5.positive?
+-5.negative?
+7.even?
+7.odd?
+255[0]
+255[1]
+4[2]
+2**10
+(2**100).to_s
+(2**100).bit_length
+(2**20).to_s(16)
+
+# file: float.txt
+3.14.to_i
+-3.14.to_i
+3.7.round
+2.5.round
+3.5.round
+-2.5.round
+2.5.round(half: :even)
+2.5.round(half: :down)
+3.14159.round(2)
+3.14159.floor(2)
+3.14159.ceil(2)
+3.14159.truncate(2)
+(0.0/0.0).nan?
+(1.0/0).infinite?
+(-1.0/0).infinite?
+1.0.finite?
+3.0.to_s
+1e20.to_s
+1e-5.to_s
+1e16.to_s
+123456789012345.0.to_s
+(1.0/3).to_s
+0.1 + 0.2
+(0.1 + 0.2).round(1)
+1.5 % 2
+-1.5 % 2
+1.5.modulo(2)
+1.5.divmod(1)
+3.7.floor
+-3.7.floor
+3.2.ceil
+2.0.zero?
+0.0.zero?
+(2**0.5).round(4)
+
+# file: array.txt
+[3, 1, 2].sort
+[3, 1, 2].sort { |a, b| b <=> a }
+[1, 2, 3, 4].sum
+[1, 2, 3, 4].sum { |x| x * 2 }
+[1, 2, 3, 4].sum(10)
+[1, 2, 3].min
+[1, 2, 3].max
+[1, 3, 2].minmax
+[1, 2, 3, 4].each_slice(2).to_a
+[1, 2, 3, 4].each_cons(2).to_a
+[1, 2, 3, 4].select { |x| x.even? }
+[1, 2, 3, 4].reject { |x| x.even? }
+[1, 2, 3, 4].map { |x| x * 2 }
+[1, 2, 3, 4].filter_map { |x| x.even? ? x * 10 : nil }
+[1, 1, 2].uniq
+[1, 2, 3].zip([4, 5, 6])
+[1, 2, 3].zip([4, 5])
+[1, 2, 3].rotate
+[1, 2, 3].rotate(-1)
+[1, 2, 3, 4].combination(2).to_a
+[1, 2, 3].permutation(2).to_a
+[1, 2].product([3, 4])
+[1, 2, 3, 4].first(2)
+[1, 2, 3, 4].last(2)
+[1, 2, 3, 4].take_while { |x| x < 3 }
+[1, 2, 3, 4].drop_while { |x| x < 3 }
+[1, 2, 3].values_at(0, 2)
+[1, 2, 3].values_at(0..1)
+[1, [2, [3, [4]]]].flatten
+[1, [2, [3, [4]]]].flatten(1)
+[1, nil, 2, false].compact
+[[1, 2], [3, 4]].to_h
+[1, 2, 3].fetch(1)
+[1, 2, 3].fetch(10, "x")
+[1, 2, 3].fetch(10) { |i| i * 2 }
+[1, 2, 3].index(2)
+[1, 2, 3].index { |x| x > 1 }
+[1, 2, 3].rindex(3)
+[1, 2, 3].include?(2)
+[1, 2, 3].count(2)
+[1, 2, 3].count { |x| x > 1 }
+[1, 2, 3].each_with_index.to_a
+[1, 2, 3, 4].partition { |x| x.odd? }
+[1, 2, 3, 4].group_by { |x| x % 3 }
+[1, 2, 2, 3].tally
+[1, 2, 3].inject { |a, b| a + b }
+[1, 2, 3].reduce(10) { |a, b| a + b }
+[1, 2, 3, 4].bsearch { |x| x >= 2 }
+[1, 2, 3] & [2, 3, 4]
+[1, 2, 3] | [2, 3, 4]
+[1, 2, 3] - [2]
+[1, 2] * 3
+[1, 2, 3].push(4, 5)
+a = [1, 2, 3]; a.pop
+[1, 2].unshift(0)
+[1, 2, 3].delete_at(1)
+[1, 2, 3].insert(1, 9)
+[[1, 2]].assoc(1)
+[[1, 2]].rassoc(2)
+[[1, [2]]].dig(0, 1, 0)
+[3, 1, 2].max(2)
+[3, 1, 2].min(2)
+[1, 2, 3, 4].chunk_while { |a, b| b == a + 1 }.to_a
+[1, 2, 4, 5].slice_when { |a, b| b == a + 2 }.to_a
+Array.new(3) { |i| i * 2 }
+Array.new(2, "x")
+[].first
+[].sum
+[1, 2].join("-")
+[1, 2, 3, 4, 5].shuffle(random: Random.new(42))
+[1, 2, 3, 4, 5, 6, 7, 8].shuffle(random: Random.new(7))
+["a", "bb", "cc"].min_by { |s| s.size }
+["a", "bb", "cc"].sort_by { |s| s.size }
+[1, 2, 3].each_with_object([]) { |x, acc| acc << x * 2 }
+
+# file: hash.txt
+{"a"=>1, "b"=>2}.transform_values { |v| v * 2 }
+{"a"=>1, "b"=>2}.transform_keys { |k| k.upcase }
+{"a"=>1, "b"=>2}.select { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.reject { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.filter_map { |k, v| v > 1 ? k : nil }
+{"a"=>1, "b"=>2}.merge({"c"=>3})
+{"a"=>1, "b"=>2}.merge({"b"=>9}) { |k, o, n| o + n }
+{"a"=>1, "b"=>2}.to_a
+{"a"=>1, "b"=>2}.keys
+{"a"=>1, "b"=>2}.values
+{"a"=>1, "b"=>2}.invert
+{"a"=>1, "b"=>2}.count
+{"a"=>1, "b"=>2}.size
+{"a"=>1, "b"=>2}.length
+h = {"a"=>1}; h["a"]
+{"a"=>1}.fetch("a")
+{"a"=>1}.fetch("z", 0)
+{"a"=>1}.fetch("z") { |k| k.size }
+{"a"=>1}.key?("a")
+{"a"=>1}.value?(1)
+{"a"=>1}.key(1)
+{"a"=>1, "b"=>2}.each_with_index.to_a
+{"a"=>1, "b"=>2}.min_by { |k, v| v }
+{"a"=>1, "b"=>2}.max_by { |k, v| v }
+{"a"=>1, "b"=>2}.sum { |k, v| v }
+{"a"=>1, "b"=>2}.any? { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.all? { |k, v| v > 0 }
+{"a"=>1, "b"=>2}.partition { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.group_by { |k, v| v % 2 }
+{"a"=>1}.dig("a")
+{"x"=>{"y"=>1}}.dig("x", "y")
+{"a"=>1, "b"=>2}.slice("a")
+{"a"=>1, "b"=>2}.except("a")
+Hash[[["a", 1]]]
+{"a"=>nil, "b"=>2}.compact
+{"a"=>1, "b"=>2}.find { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.sort_by { |k, v| v }.to_h
+{"a"=>1, "b"=>2}.min
+{"a"=>1, "b"=>2}.max
+{"b"=>2, "a"=>1}.sort.to_h
+{"a"=>1, "b"=>2}.each_pair.to_a
+{"a"=>1, "b"=>2}.count { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.each_with_object([]) { |(k, v), acc| acc << k }
+
+# file: set.txt
+Set[1, 2, 3].to_a
+Set[1, 2] | Set[3]
+Set[1, 2] & Set[2, 3]
+Set[1, 2, 3] - Set[2]
+Set[1, 2] ^ Set[2, 3]
+Set[1, 2].add(3)
+s = Set[1, 2]; s.add?(1)
+Set[1, 2].add?(3)
+Set[1, 2].subset?(Set[1, 2, 3])
+Set[1, 2].superset?(Set[1])
+Set[1, 2] <= Set[1, 2]
+Set[1, 2] < Set[1, 2]
+Set[1, 2].disjoint?(Set[3])
+Set[1, 2].intersect?(Set[2])
+Set[1, 2] == Set[2, 1]
+Set[1, 2].include?(1)
+Set[1, 2].size
+Set[1, 2].empty?
+Set.new.empty?
+Set[3, 1, 2].sort.to_a
+Set[1, 2].map { |x| x * 2 }
+Set[1, 2, 3].select { |x| x.odd? }.to_a.sort
+Set[1, 2].inspect
+Set[1, 2].to_s
+Set.new([1, 2]) == Set[1, 2]
+
+# file: range.txt
+(1..5).to_a
+(1...5).to_a
+('a'..'e').to_a
+(1..10).step(3).to_a
+('a'..'e').step(2).to_a
+(1..5).step(2).to_a
+(1.0..2.0).step(0.5).to_a
+(1..5).size
+(1...5).size
+(1..5).count
+(1..5).sum
+(1..3).sum { |x| x * 2 }
+(1..5).min
+(1..5).max
+(1..5).first(3)
+(1..5).last(3)
+(1..5).first
+(1..5).last
+(1..5).include?(3)
+(1..5).cover?(3)
+(1..5).cover?(0)
+(1..5) === 3
+(1..10) === 5.0
+(1..10).select { |x| x.even? }
+(1..6).map { |x| x * x }
+(1..5).reduce { |a, b| a + b }
+(1..3).each_slice(2).to_a
+(1..3).overlap?(3..5)
+(1..3).overlap?(4..5)
+(1..).first(3)
+(-3..3).select { |x| x.negative? }
+
+# file: time.txt
+Time.at(0).utc.to_s
+Time.at(0).utc.inspect
+Time.at(0).to_i
+Time.at(0).utc.iso8601
+Time.at(0.5).utc.iso8601
+Time.at(0.123456789).utc.iso8601(9)
+Time.at(0.123456789).usec
+Time.at(0.123456789).nsec
+Time.gm(2026,1,2,3,4,5).to_s
+Time.gm(2026,1,2,3,4,5).inspect
+Time.utc(2026,1,2,3,4,5).to_s
+Time.local(2026,1,2,3,4,5).to_s
+Time.mktime(2026,1,2).to_s
+Time.new(2026,1,2,3,4,5,"+05:30").to_s
+Time.new(2026,1,2,3,4,5,"+05:30").utc_offset
+Time.new(2026,1,2,3,4,5,"+05:30").zone
+Time.new(2026,1,2,3,4,5,"+05:30").utc.to_s
+Time.at(0).getlocal.utc_offset
+Time.gm(2026,1,2).wday
+Time.gm(2026,1,2).yday
+Time.gm(2026,1,2).mday
+Time.gm(2026,1,2).day
+Time.gm(2026,1,2).mon
+Time.gm(2026,1,2).month
+Time.gm(2026,1,2).year
+Time.gm(2026,1,2,3,4,5).hour
+Time.gm(2026,1,2,3,4,5).min
+Time.gm(2026,1,2,3,4,5).sec
+Time.gm(2026,1,2).to_a
+Time.gm(2026,1,2).monday?
+Time.gm(2026,1,2).friday?
+Time.gm(2026,1,2).utc?
+Time.gm(2026,1,2).dst?
+Time.at(0).dst?
+Time.gm(2026,1,2) + 86400
+Time.gm(2026,1,2) - 3600
+Time.gm(2026,1,2) - Time.gm(2025,12,31)
+Time.gm(2026,1,2) <=> Time.gm(2025,12,31)
+Time.gm(2026,1,2) == Time.gm(2026,1,2)
+t = Time.gm(2026,1,2,3,4,5); t.strftime("%Y-%m-%d %H:%M:%S")
+t.strftime("%F %T")
+t.strftime("%D %R %r")
+t.strftime("%e")
+t.strftime("%-d %-m")
+t.strftime("%^A")
+t.strftime("%_m")
+t.strftime("%C %y %G %V %u")
+t.strftime("%j %U %W")
+t.strftime("%a %A %b %B %h")
+t.strftime("%k %l %P %p")
+t.strftime("%c")
+t.strftime("%x %X")
+t.strftime("%s")
+t.strftime("%%")
+t.strftime("[%n]")
+t.strftime("%z")
+Time.new(2026,1,2,3,4,5,"+05:30").strftime("%z %Z")
+t.strftime("%Z")
+Time.at(0).utc.strftime("%Z")
+t.strftime("%+")
+t2 = Time.at(0.123456789).utc; t2.strftime("%L")
+t2.strftime("%N")
+t2.strftime("%3N %6N %9N")
+t2.strftime("%.3N")
+Time.parse("2026-01-02 03:04:05 UTC").to_s
+Time.parse("2026-01-02T03:04:05+05:30").utc.to_s
+Time.parse("Fri, 02 Jan 2026 03:04:05 GMT").to_s
+Time.gm(2026,1,2,3,4,5).httpdate
+Time.gm(2026,1,2,3,4,5).rfc2822
+Time.gm(2026,1,2,3,4,5).iso8601
+Time.gm(2026,1,2,3,4,5).xmlschema
+Time.at(0.123456789).utc.xmlschema(6)
+Time.gm(2026,1,2).getutc.zone
+Time.utc(1900,1,1).to_s
+Time.gm(2024,2,29).to_s
+
+# file: date.txt
+Date.new(2026,1,2).to_s
+Date.new(2026,1,2).iso8601
+Date.new(2026,1,2).inspect
+Date.new(2026,1,2).jd
+Date.new(2026,1,2).mjd
+Date.new(2026,1,2).yday
+Date.new(2026,1,2).wday
+Date.new(2026,1,2).cwday
+Date.new(2026,1,2).cweek
+Date.new(2026,1,2).cwyear
+Date.new(2026,1,2).day
+Date.new(2026,1,2).mday
+Date.new(2026,1,2).mon
+Date.new(2026,1,2).month
+Date.new(2026,1,2).year
+Date.new(2026,1,2).friday?
+Date.leap?(2024)
+Date.leap?(2023)
+Date.leap?(2000)
+Date.leap?(1900)
+Date.new(2026,1,2) + 30
+Date.new(2026,3,1) - 1
+Date.new(2026,1,2) - Date.new(2025,12,31)
+Date.new(2026,1,2).next_day.to_s
+Date.new(2026,1,2).prev_day.to_s
+Date.new(2026,1,2).next_month.to_s
+Date.new(2026,1,2).prev_month.to_s
+Date.new(2026,1,2).next_year.to_s
+Date.new(2026,1,31).next_month.to_s
+Date.new(2026,1,2).succ.to_s
+Date.parse("2026-01-02").to_s
+Date.iso8601("2026-01-02").to_s
+Date.ordinal(2026,100).to_s
+Date.civil(2026,2,3).to_s
+Date.jd(Date.new(2026,1,2).jd).to_s
+Date.commercial(2026,1,1).to_s
+(Date.new(2026,1,2)..Date.new(2026,1,4)).to_a.map { |d| d.to_s }
+Date.new(2026,1,2).step(Date.new(2026,1,5)).to_a.map { |d| d.to_s }
+Date.new(2026,1,2).step(Date.new(2026,1,9), 2).to_a.map { |d| d.to_s }
+Date.new(2026,1,2).upto(Date.new(2026,1,4)).to_a.map { |d| d.to_s }
+Date.new(2026,6,1).downto(Date.new(2026,5,30)).to_a.map { |d| d.to_s }
+Date.new(1582,10,4).julian?
+Date.new(1582,10,15).gregorian?
+Date.new(1582,10,15).to_s
+Date.new(1582,10,4).to_s
+Date.new(2026,1,2).julian?
+Date.new(2026,1,2).gregorian?
+Date.new(2026,1,2).asctime
+Date.new(2026,1,2).strftime("%Y-%m-%d %A %j %V %G %u")
+Date.new(2026,1,2) <=> Date.new(2026,1,1)
+Date.new(2026,1,2) == Date.new(2026,1,2)
+Date.new(2026,1,2).between?(Date.new(2026,1,1), Date.new(2026,1,3))
+DateTime.civil(2026,1,2,3,4,5).to_s
+DateTime.iso8601("2026-01-02T03:04:05+05:30").to_s
+DateTime.civil(2026,1,2,3,4,5).new_offset(0).to_s
+DateTime.civil(2026,1,2,3,4,5).new_offset("+05:30").to_s
+DateTime.civil(2026,1,2,3,4,5).inspect
+DateTime.jd(Date.new(2026,1,2).jd).to_s
+(Date.today.year > 2025).to_s
+
+# file: random.txt
+Random.new(42).rand
+Random.new(0).rand
+Random.new(1).rand
+Random.new(-1).rand
+Random.new(2**64).rand
+Random.new(42).rand(100)
+r = Random.new(42); (1..5).map { r.rand }
+r = Random.new(42); (1..5).map { r.rand(1000) }
+r = Random.new(42); (1..5).map { r.rand(10..20) }
+r = Random.new(42); (1..3).map { r.rand(1.5) }
+Random.new(123).rand(2.0)
+r = Random.new(9); (1..3).map { r.rand(2**40) }
+r = Random.new(5); (1..3).map { r.rand(2**32) }
+r = Random.new(5); (1..3).map { r.rand(2**32 - 1) }
+Random.new(42).bytes(8).bytes
+Random.new(42).bytes(16).bytes
+Random.new(7).bytes(5).bytes
+srand(99); rand
+srand(99); rand(1000)
+r = Random.new(3); (1..3).map { r.bytes(4).bytes }
+[1, 2, 3, 4, 5].shuffle(random: Random.new(42))
+[1, 2, 3, 4, 5, 6, 7, 8].shuffle(random: Random.new(7))
+r = Random.new(42); (1..2).map { r.rand(2**62) }
+
+# file: struct.txt
+Point.new(1,2).to_s
+Point.new(1,2).inspect
+Point.new(1,2).to_a
+Point.new(1,2).values
+Point.new(1,2).to_h
+Point.members
+Point.new(1,2) == Point.new(1,2)
+Point.new(1,2) == Point.new(0,2)
+Point.new(1,2)[0]
+Point.new(1,2)[1]
+Point.new(1,2)["x"]
+Point.new(1,2).each.to_a
+Point.new(1,2).each_pair.to_a
+Point.new(1,2).size
+Point.new(1,2).length
+p = Point.new(1,2); p.x = 3; p.to_s
+p = Point.new(1,2); p[0] = 9; p.to_a
+KwPoint.new(a: 1, b: 2).to_s
+KwPoint.new(a: 1).to_s
+Struct.new(:a).new(1).to_s
+
+# file: random.txt
+r = Random.new(1); (1..3).map { r.rand(1.5..3.0) }
+r = Random.new(4); (1..3).map { r.rand(1..3.5) }
+r = Random.new(5); r.rand(10...20)
+Random.new(42).rand(0..0)
+[1, 2, 3, 4, 5].sample(random: Random.new(42))
+[1, 2, 3, 4, 5, 6, 7, 8].sample(random: Random.new(7))
+[].sample(random: Random.new(1))
+r = Random.new(1); (1..3).map { [1, 2, 3, 4, 5].sample(random: r) }
+r = Random.new(3); [1, 2, 3, 4, 5].sample(2, random: r)
+r = Random.new(9); [1, 2, 3, 4, 5, 6, 7, 8].sample(3, random: r)
+r = Random.new(2); [1, 2, 3].sample(3, random: r)
+
+# file: time.txt
+Time.at(0).to_s
+Time.at(1, 500, :millisecond)
+Time.at(1, 500000, :usec)
+Time.at(0).zone
+Time.mktime(2026,6,1).zone
+Time.local(2026,1,2,3,4,5).strftime("%Z")
+t.strftime("%:z")
+Time.new(2026,1,2,3,4,5,"+05:30").strftime("%:z %::z")
+Time.at(0.123456789).subsec
+Time.at(0.5).subsec
+Time.at(1.5).to_s
+Time.parse("2026-01-02 03:04:05 +0300").to_s
+Time.parse("2026-01-02T03:04:05Z").to_s
+Time.parse("2026-01-02").to_s
+Time.parse("2026/01/02 03:04:05").to_s
+Time.parse("2026-01-02 03:04:05").utc_offset
+
+# file: date.txt
+Date.parse("2026/01/02").to_s
+Date.parse("January 2, 2026").to_s
+Date.parse("2 Jan 2026").to_s
+Date.parse("Jan 2, 2026").to_s
+DateTime.parse("2026-01-02T03:04:05+05:30").to_s
+Date.jd(0).to_s
+Date.jd(0).wday
+Date.new(-1, 1, 1).to_s
+Date.new(-1, 1, 1).inspect
+
+# file: string.txt
+"abc".casecmp("ABC")
+"abc".casecmp("abd")
+"abc".casecmp?("ABC")
+"abc".casecmp?("abd")
+"a9".upto("b1").to_a
+"aa".upto("ac", true).to_a
+"hello world".lines(chomp: true)
+
+# file: array.txt
+[1, 2, 3].flat_map { |x| [x, -x] }
+[1, 2, 3, 4].grep(2)
+["a", 1, "b", 2].grep(String)
+[1, 2, 3, 4].grep(2..3)
+[1, 2, 3, 4].grep_v(2..3)
+[1, 2, 3, 4].grep(2) { |x| x * 10 }
+["a", "b"].each_with_index(1).to_a
+
+# file: integer.txt
+12345.digits(16)
+255.allbits?(0b101)
+255.allbits?(0b11)
+5.anybits?(2)
+5.nobits?(2)
+5.then { |x| x + 1 }
+[1, 2].tap { |a| a << 3 }
+
+# file: hash.txt
+{"a"=>1}.transform_keys({"a" => "z"})
+{"a"=>1, "b"=>2}.transform_keys({"a" => "z", "b" => "y"})
+
+# file: pack.txt
+[1, 2].pack("C*").unpack("C*")
+[1, 2].pack("C*").bytes
+[50000].pack("V").unpack("V")
+[50000].pack("N").unpack("N")
+[-1].pack("l").unpack("l")
+[1048576].pack("N").bytes
+[1048576].pack("V").bytes
+[1, -1].pack("c*").unpack("c*")
+"AB".unpack("H*")
+"AB".unpack("h*")
+["4142"].pack("H*")
+["hello"].pack("m")
+"aGVsbG8=\n".unpack("m")
+["hello"].pack("m0")
+[233].pack("U")
+[233].pack("U").unpack("U")
+["abc"].pack("A6")
+["abc"].pack("A3")
+[1, 2].pack("S*").unpack("S*")
+[1, 2].pack("n*").unpack("n*")
+[1, 2].pack("v*").unpack("v*")
+[2**40].pack("Q>").unpack("Q>")
+[-2**40].pack("q<").unpack("q<")
+[1.5].pack("e").unpack("e")
+[1.5].pack("f").unpack("f")
+[0.5].pack("d").unpack("d")
+[0.5].pack("E").unpack("E")
+[65].pack("w").bytes
+[65].pack("w").unpack("w")
+[1, 2].pack("C*").unpack1("C")
+["ab", "cd"].pack("A2A3").bytes
+
+# file: scanner.txt
+s = StringScanner.new("key = value"); s.scan(/\w+/)
+s.scan(/\s*=\s*/)
+s.scan(/\w+/)
+s.scan(/\w+/)
+s = StringScanner.new("123abc"); s.scan(/(\d+)(\w+)/)
+s[1]
+s[2]
+s.matched
+s.pos
+s.eos?
+s = StringScanner.new("hello world"); s.scan_until(/o/)
+s.scan(/\w+/)
+s = StringScanner.new("  abc"); s.skip(/\s+/)
+s.pos
+s = StringScanner.new("xyz"); s.skip(/\d+/)
+s = StringScanner.new("abc"); s.check(/\w+/)
+s.pos
+s = StringScanner.new("abc"); s.match?(/b/)
+s = StringScanner.new("abc"); s.match?(/a/)
+s = StringScanner.new("ab"); s.beginning_of_line?
+s = StringScanner.new("ab"); s.scan(/a/); s.beginning_of_line?
+s = StringScanner.new("abc"); s.terminate; s.eos?
+s = StringScanner.new("abc"); s.scan(/a/); s.reset; s.pos
+s = StringScanner.new("abc"); s.scan(/a/); s.rest
+s = StringScanner.new("abc"); s.scan(/a/); s.post_match
+s = StringScanner.new("abc"); s.scan(/a/); s.pre_match
+s = StringScanner.new("abc"); s.scan(/z/)
+s.matched?
+s = StringScanner.new("abc"); s.getch
+s = StringScanner.new("abcdef"); s.peek(2)
+s = StringScanner.new("abc"); s.string
+
+# file: secrandom.txt
+SecureRandom.hex(8).size
+SecureRandom.hex.size
+SecureRandom.base64(12).size
+SecureRandom.urlsafe_base64(8).size
+!(SecureRandom.hex(4) =~ /\A\h{8}\z/).nil?
+SecureRandom.random_bytes(4).size
+x = SecureRandom.random_number(10); (x >= 0 && x < 10)
+x = SecureRandom.random_number; (x >= 0 && x < 1)
+SecureRandom.alphanumeric(12).size
+!(SecureRandom.alphanumeric(8) =~ /\A[A-Za-z0-9]{8}\z/).nil?
+
+# file: base64.txt
+Base64.encode64("hello")
+Base64.strict_encode64("hello")
+Base64.decode64("aGVsbG8=")
+Base64.strict_decode64("aGVsbG8=")
+Base64.urlsafe_base64("abc")
+Base64.urlsafe_decode64("YWJj")
+Base64.encode64("a" * 80)
+Base64.strict_encode64("a" * 80)
+Base64.encode64("a" * 80).include?("\n")
+
+# file: pack.txt
+["ab"].pack("Z3").bytes
+"a\0bc".unpack("Z*")
+[1, 2].pack("CxC").bytes
+[1, 2].pack("Cx3C").bytes
+[1, 2, 3].pack("CCXC").bytes
+[1, 2, 3].pack("C@3C").bytes
+["101"].pack("B*").bytes
+["101"].pack("b*").bytes
+"\xA0".unpack("B8")
+"\xA0".unpack("b8")
+["hello"].pack("M")
+["hello"].pack("u")
+[1, 2].pack("S<").unpack("S<")
+[1, 2].pack("L<").unpack("L<")
+[1].pack("s>").unpack("s>")
+[1, 2, 3].pack("C*").unpack("C2")
+["ab", "cd"].pack("Z3Z3").bytes
+
+# file: scanner.txt
+s = StringScanner.new("test string"); s.exist?(/s/)
+s = StringScanner.new("test string"); s.skip_until(/str/)
+s = StringScanner.new("test string"); s.skip_until(/s/); s.pos
+s = StringScanner.new("abc"); s.scan(/a/); s.unscan; s.pos
+s = StringScanner.new("abc"); s.scan(/z/); s.unscan
+s = StringScanner.new("abc"); s.string = "xyz"; s.scan(/x/)
+s = StringScanner.new("abcd"); s.scan(/(?<first>\w)(?<second>\w)/); s["first"]
+s = StringScanner.new("abcd"); s.scan(/(?<first>\w)(?<second>\w)/); s["second"]
+s = StringScanner.new("abc"); s.peek(99)
+s = StringScanner.new("abc"); s.scan(/a/); s.scan(/a/); s.matched
+
+# file: time.txt
+Time.at(0.123456789).round(3).nsec
+Time.at(0.123456789).ceil(3).nsec
+Time.at(0.123456789).truncate(3).nsec
+Time.at(1.5).round.to_i
+Time.at(0.999999999).round(3).nsec
+Time.at(0.999999999).ceil(3).sec
+
+# file: date.txt
+Date.strptime("2026-01-02", "%Y-%m-%d").to_s
+Date.strptime("02/01/2026", "%d/%m/%Y").to_s
+Date.strptime("20260102", "%Y%m%d").to_s
+Date.parse("20260102").to_s
+Date.parse("2026-W01-1").to_s
+Date.new(2024,2,29).prev_year.to_s
+Date.new(2024,2,29).next_year.to_s
+
+# file: kernel.txt
+Integer("42")
+Integer("0x1A", 16)
+Integer("1_000")
+Integer("abc")
+Float("3.14")
+Float("1e3")
+Float("x")
+Rational(3, 6)
+Rational(4)
+Array(nil)
+Array([1, 2])
+Array(1..3)
+Array("ab")
+Hash[[[1, 2]]]
+catch(:done) { [1, 2, 3].each { |x| throw :done, x * 10 if x > 1 } }
+
+# file: string.txt
+"hello".match?(/ll/)
+"hello".match?(/xx/)
+"hello" =~ /ll/
+"hello".index(/l+/)
+"a,b,c".split(",", 2)
+"a,b,c".split(/,/, 2)
+"a\nb\nc".each_line(chomp: true).to_a
+"hello".count("l")
+"hello world".count("lo")
+"abcdef".count("a-c")
+"hello".slice(1..3)
+
+# file: array.txt
+[1, 2, 3].intersection([2, 3, 4])
+[1, 2] | [2, 3]
+[1, 2, 3].union([3, 4], [4, 5])
+[1, 2, 3].difference([2])
+[1, 2, 3].each_index.to_a
+a = [1, 2]; a.append(3)
+a = [1, 2]; a.prepend(0)
+%w[a b c d].slice(1..2)
+"Hello".start_with?(/He/)
+"Hello".start_with?(/xx/)
+
+# file: hash.txt
+h = {"a"=>1}; h.merge!({"b"=>2})
+h = {"a"=>1, "b"=>2}; h.each_key.to_a
+h = {"a"=>1, "b"=>2}; h.each_value.to_a
+{"a"=>1, "b"=>2}.filter { |k, v| v > 1 }
+{"a"=>1, "b"=>2}.find_index { |k, v| v > 1 }
+
+# file: time.txt
+Time.utc(2026,1,2,3,4,5).to_date.to_s
+Time.utc(2026,1,2,3,4,5).to_datetime.to_s
+Time.local(2026,1,2,3,4,5).to_datetime.to_s
+
+# file: date.txt
+Date.new(2026,1,2).to_datetime.to_s
+DateTime.civil(2026,1,2,3,4,5).to_date.to_s
+
+# file: kernel.txt
+(1/0 rescue "rescued-ZD")
+(raise "boom" rescue "rescued-RT")
+({"a"=>1}.fetch("z") rescue "rescued-KE")
+([1,2,3].fetch(9) rescue "rescued-IE")
+5.clamp(2..4)
+"a".dup
+nil.to_a
+nil.to_h
+
+# file: string.txt
+"hello".gsub("l") { |m| m.upcase }
+"hello".sub(/l/) { |m| m + "!" }
+"hello".gsub(/l/, "l" => "L")
+"a1b2".gsub(/\d/, "1" => "one")
+"2026-01-02"[/(?<y>\d+)-(?<m>\d+)/, :m]
+"ab"[/(a)(b)/, 1]
+"ab"[/(a)(b)/, 2]
+"ab"[/z/, 1]
+
+# file: integer.txt
+123.round(-1)
+125.round(-1)
+-125.round(-1)
+1234.round(-2)
+12345.round(-3)
+15.ceil(-1)
+14.floor(-1)
+15.truncate(-1)
+123.45.round(-1)
+-123.45.round(-1)
+
+# file: date.txt
+(Date.new(2026,1,2) >> 1).to_s
+(Date.new(2026,1,31) >> 1).to_s
+(Date.new(2026,3,31) >> 1).to_s
+(Date.new(2026,1,2) << 1).to_s
+(Date.new(2026,3,31) << 1).to_s
+(Date.new(2026,1,2) >> 12).to_s
+
+# file: time.txt
+Time.parse("Fri, 02 Jan 2026 03:04:05 +0300").to_s
+Time.parse("Fri, 02 Jan 2026 03:04:05 -0500").utc_offset
+Time.parse("Fri, 02 Jan 2026 03:04:05 +0000").to_s
+
+# file: file.txt
+File.basename("/a/b/c.txt")
+File.basename("/a/b/c.txt", ".txt")
+File.basename("/a/b/")
+File.extname("/a/b/c.txt")
+File.extname("/a/b/c")
+File.extname("/a/b/.profile")
+File.join("a", "b", "c")
+File.join("a/", "b")
+File.join("/a", "b/")
+File.dirname("/a/b/c.txt")
+File.split("/a/b/c.txt")
+File.expand_path("../b", "/a/c")
+
+# file: kernel.txt
+begin; {"a"=>1}.fetch("z"); rescue => e; e.message; end
+begin; [1,2,3].fetch(9); rescue => e; e.message; end
+begin; Integer("abc"); rescue => e; e.message; end
+!Regexp.union("a+", "b").match("a+").nil?
+!Regexp.union("a+", "b").match("b").nil?
+Regexp.union("a+", "b").match("a")&.[](0)
+
+# file: pack.txt
+["hello world"].pack("M")
+["=ab"].pack("M")
+["a" * 100].pack("M").size
+["a\nb"].pack("M")
+["\t"].pack("M")
+["\x7F"].pack("M")
+["hello"].pack("M").unpack("M")
+["a" * 100].pack("M").unpack("M") == ["a" * 100]
+"=48=69".unpack("M")
+"a=\nb".unpack1("M")
+"x=Z".unpack1("M")
+"#86)C".unpack("u")
+"#<V)S".unpack("u")
+["hello world !"].pack("u").unpack("u")
+["\xFF\x00\xFE"].pack("u").unpack("u")
+
+# file: kernel.txt
+begin; 1 / 0; rescue ZeroDivisionError; "zd"; end
+begin; [1].fetch(5); rescue IndexError; "ix"; end
+begin; {"a"=>1}.fetch("b"); rescue KeyError; "ke"; end
+begin; raise "boom"; rescue RuntimeError => e; e.message; end
+begin; raise StopIteration; rescue StopIteration; "si"; end
+begin; raise FrozenError; rescue FrozenError; "fe"; end
+
+# file: date.txt
+DateTime.parse("2026-01-02T03:04:05+05:00").to_time.to_s
+DateTime.parse("2026-01-02T03:04:05+05:00").to_time.utc_offset
+Date.new(2026,1,2).to_time.to_s
+
+# file: time.txt
+Time.strptime("2026-01-02 03:04:05", "%Y-%m-%d %H:%M:%S").to_s
+Time.strptime("02/01/2026 7:08:09", "%d/%m/%Y %H:%M:%S").to_s
+Time.strptime("2026-01-02", "%Y-%m-%d").to_s

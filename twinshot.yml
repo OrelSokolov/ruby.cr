@@ -1,0 +1,16 @@
+oracle:
+  path: artifacts/ruby-v4
+  generate: bin/record-ruby v4
+
+current:
+  path: artifacts/crystal-v4
+  generate: bin/record-crystal v4
+
+groups:
+  v3:
+    oracle:
+      path: artifacts/ruby-v3
+      generate: bin/record-ruby v3
+    current:
+      path: artifacts/crystal-v3
+      generate: bin/record-crystal v3
